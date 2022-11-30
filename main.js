@@ -1,6 +1,10 @@
 const resultsDiv = document.getElementById('results');
 const userScoreHTML = document.getElementById('usrScore');
 const compScoreHTML = document.getElementById('compScore');
+const rock = document.getElementById('rock');
+const paper = document.getElementById('paper');
+const scissors = document.getElementById('scissors');
+const buttons = document.querySelectorAll('button');
 
 let userScore = 0;
 let computerScore = 0;
@@ -94,14 +98,6 @@ function play(userChoice) {
         increaseScore('computer');
     } else {}
 }
-
-
-
-const rock = document.getElementById('rock');
-const paper = document.getElementById('paper');
-const scissors = document.getElementById('scissors');
-const buttons = document.querySelectorAll('button');
-
 
 buttons.forEach(button => button.addEventListener('click', () => {
     if(userScore < 5 && computerScore < 5){
