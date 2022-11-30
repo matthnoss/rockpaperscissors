@@ -1,6 +1,29 @@
+const resultsDiv = document.getElementById('results');
+const userScoreHTML = document.getElementById('usrScore');
+const compScoreHTML = document.getElementById('compScore');
+
+let userScore = 0;
+let computerScore = 0;
+let scoreDisplayed = false;
+
+function increaseScore(user){
+    if(user === 'user'){
+        userScore += 1;
+        userScoreHTML.textContent = userScore;
+    } else if(user === 'computer') {
+        computerScore += 1;
+        compScoreHTML.textContent = computerScore;
+    } else {}
+}
+
+function textElement(value) {
+    let element = document.createElement('h4');
+    element.textContent = value;
+    resultsDiv.appendChild(element);
+}
+
 function getComputerChoice() {
     let randomNumber = Math.floor(Math.random() * 3);
-    let computerChoice;
     if(randomNumber > 2) {
         randomNumber = 2;
     } else if(randomNumber < 0) {
@@ -33,21 +56,28 @@ function playRound(userChoice, computerChoice) {
     console.log(customMessage);
 
     if(userChoice === "paper" && computerChoice === "rock") {
-        console.log("The user won.");
+        textElement('The user won.');
+        return 'user';
     } else if (userChoice === "paper" && computerChoice === "scissors") {
-        console.log("The computer won.");
+        textElement('The computer won.');
+        return 'computer';
     } else {
         if(userChoice === "rock" && computerChoice === "scissors") {
-            console.log("The user won.");
+            textElement('The user won.');
+            return 'user';
         } else if (userChoice === "rock" && computerChoice === "paper") {
-            console.log("The computer won.");
+            textElement('The computer won.');
+            return 'computer';
         } else {
             if(userChoice === "scissors" && computerChoice === "paper") {
-                console.log("The user won.");
+                textElement('The user won.')
+                return 'user';
             } else if (userChoice === "scissors" && computerChoice === "rock") {
-                console.log("The computer won.");
+                textElement('The computer won.')
+                return 'computer';
             } else {
-                console.log("This game is a tie.");
+                textElement("This game is a tie.");
+                return 'tie';
             }
         }
     }
@@ -55,15 +85,38 @@ function playRound(userChoice, computerChoice) {
 
 }
 
-function play() {
+function play(userChoice) {
     let compChoice = getComputerChoice();
-    let userChoice = prompt("Enter your choice: ");
-    userChoice = userChoice.toLowerCase();
-    playRound(userChoice, compChoice);
+    let winner = playRound(userChoice, compChoice);
+    if(winner === 'user') {
+        increaseScore('user');
+    } else if(winner === 'computer') {
+        increaseScore('computer');
+    } else {}
 }
 
-function game() {
-    for (let i = 1; i <= 5; i++) {
-        play();
+
+
+const rock = document.getElementById('rock');
+const paper = document.getElementById('paper');
+const scissors = document.getElementById('scissors');
+const buttons = document.querySelectorAll('button');
+
+
+buttons.forEach(button => button.addEventListener('click', () => {
+    if(userScore < 5 && computerScore < 5){
+        let playerSelection = button.id;
+        play(playerSelection);
+        increaseScore();
+    } else {
+        if(scoreDisplayed === false) {
+            if(userScore === 5) {
+                textElement('The game is over and the user won!!!');
+            } else {
+                textElement('The game is over and the computer won.');
+            }
+            scoreDisplayed = true;
+        } else {}
     }
-}
+    
+}))
